@@ -9,6 +9,18 @@ if (!is_dir($session_folder)) mkdir($session_folder);
 session_save_path($session_folder);
 session_start();
 
+function answer($data) {
+    echo json_encode($data);
+    exit;
+}
+
+$action = $_POST["action"] ?? $_GET["action"] ?? "";
+
+if ($action == "logout") {
+    session_destroy();
+    answer(["ok" => true]);
+}
+
 $mysql_user = "root";
 $mysql_password = "";
 $mysql_ports = [3306, 3307, 3308];
@@ -20,11 +32,6 @@ foreach ($mysql_ports as $port) {
         $db = $try;
         break;
     }
-}
-
-function answer($data) {
-    echo json_encode($data);
-    exit;
 }
 
 if (!$db) {
@@ -60,8 +67,6 @@ if ($db->query("SELECT id FROM users WHERE email='levi@gmail.com'")->num_rows ==
 function valid_user($username, $email, $password) {
     return strlen($username) >= 3 && filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 8;
 }
-
-$action = $_POST["action"] ?? $_GET["action"] ?? "";
 
 if ($action == "check") {
     answer([

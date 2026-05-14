@@ -111,10 +111,19 @@ input {
 }
 
 .cart-button,
-.add-cart-button {
+.add-cart-button,
+.logout-button {
     border: 1px solid transparent;
     cursor: pointer;
     transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.logout-button {
+    padding: 0.75rem 0.95rem;
+    border-radius: 999px;
+    border-color: var(--green);
+    background: transparent;
+    color: var(--green);
 }
 
 .cart-button {
@@ -129,6 +138,8 @@ input {
 
 .cart-button:hover,
 .cart-button:focus-visible,
+.logout-button:hover,
+.logout-button:focus-visible,
 .add-cart-button:hover,
 .add-cart-button:focus-visible {
     transform: translateY(-2px);

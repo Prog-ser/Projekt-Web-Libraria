@@ -17,6 +17,7 @@ const authPopup = document.querySelector("#auth-popup");
 const authForm = document.querySelector("#auth-form");
 const authMessage = document.querySelector("#auth-message");
 const userGreeting = document.querySelector("#user-greeting");
+const logoutButton = document.querySelector("#logout-btn");
 
 fetch("auth.php?action=check")
     .then(function (response) {
@@ -39,6 +40,18 @@ document.querySelector("#login-btn").addEventListener("click", function () {
 
 document.querySelector("#signin-btn").addEventListener("click", function () {
     sendAuth("signup");
+});
+
+logoutButton.addEventListener("click", function () {
+    fetch("auth.php?action=logout")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function () {
+            userGreeting.textContent = "";
+            logoutButton.hidden = true;
+            authPopup.classList.add("show");
+        });
 });
 
 form.addEventListener("submit", async function (event) {
@@ -197,4 +210,5 @@ function sendAuth(action) {
 
 function sayHi(username) {
     userGreeting.textContent = "Hi, " + username;
+    logoutButton.hidden = false;
 }
