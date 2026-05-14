@@ -28,6 +28,9 @@ fetch("auth.php?action=check")
             sayHi(data.username);
             authPopup.classList.remove("show");
         }
+    })
+    .catch(function () {
+        authMessage.textContent = "Open the page with Laragon localhost and make sure MySQL is running.";
     });
 
 document.querySelector("#login-btn").addEventListener("click", function () {
@@ -172,6 +175,8 @@ function sendAuth(action) {
     const formData = new FormData(authForm);
     formData.append("action", action);
 
+    authMessage.textContent = "Please wait...";
+
     fetch("auth.php", { method: "POST", body: formData })
         .then(function (response) {
             return response.json();
@@ -184,6 +189,9 @@ function sendAuth(action) {
                 sayHi(data.username);
                 authPopup.classList.remove("show");
             }
+        })
+        .catch(function () {
+            authMessage.textContent = "Login failed. Open with localhost and check MySQL.";
         });
 }
 

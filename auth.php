@@ -1,10 +1,36 @@
 <?php
+header("Content-Type: application/json");
+error_reporting(0);
+ini_set("display_errors", "0");
+mysqli_report(MYSQLI_REPORT_OFF);
+
 $session_folder = __DIR__ . "/sessions";
 if (!is_dir($session_folder)) mkdir($session_folder);
 session_save_path($session_folder);
 session_start();
 
-$db = new mysqli("localhost", "root", "");
+$mysql_user = "root";
+$mysql_password = "";
+$mysql_ports = [3306, 3307, 3308];
+$db = false;
+
+foreach ($mysql_ports as $port) {
+    $try = @new mysqli("127.0.0.1", $mysql_user, $mysql_password, "", $port);
+    if (!$try->connect_error) {
+        $db = $try;
+        break;
+    }
+}
+
+function answer($data) {
+    echo json_encode($data);
+    exit;
+}
+
+if (!$db) {
+    answer(["ok" => false, "message" => "Could not connect to MySQL. Start MySQL in Laragon and check its port/password."]);
+}
+
 $db->query("CREATE DATABASE IF NOT EXISTS evergreen_library");
 $db->select_db("evergreen_library");
 
@@ -29,13 +55,6 @@ if ($db->query("SELECT id FROM users WHERE email='levi@gmail.com'")->num_rows ==
     $stmt = $db->prepare("INSERT INTO users(username, email, password) VALUES('levi', 'levi@gmail.com', ?)");
     $stmt->bind_param("s", $hash);
     $stmt->execute();
-}
-
-header("Content-Type: application/json");
-
-function answer($data) {
-    echo json_encode($data);
-    exit;
 }
 
 function valid_user($username, $email, $password) {
