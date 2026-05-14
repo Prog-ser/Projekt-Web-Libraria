@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Orders</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="page-shell">
+        <main class="admin-page">
+            <section class="hero">
+                <p class="eyebrow">Admin</p>
+                <h1>Orders</h1>
+                <p id="admin-message">Loading orders...</p>
+            </section>
+
+            <div class="books-grid" id="orders"></div>
+        </main>
+    </div>
+
+    <script>
+        const ordersBox = document.querySelector("#orders");
+        const message = document.querySelector("#admin-message");
+
+        fetch("auth.php?action=orders")
+            .then(function (response) {
+                if (!response.ok) location.href = "index.html";
+                return response.json();
+            })
+            .then(function (data) {
+                if (!data.ok) return;
+
+                message.textContent = data.orders.length ? "Latest customer orders." : "No orders yet.";
+                ordersBox.innerHTML = data.orders.map(function (order) {
+                    return `
+                        <article class="book-card">
+                            <div class="book-content">
+                                <h3 class="book-title">${clean(order.book_name)}</h3>
+                                <p>Name: ${clean(order.user_name)}</p>
+                                <p class="book-price">$${Number(order.total_price).toFixed(2)}</p>
+                            </div>
+                        </article>
+                    `;
+                }).join("");
+            });
+
+        function clean(text) {
+            return String(text).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        }
+    </script>
+</body>
+</html>

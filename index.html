@@ -77,6 +77,20 @@
             </div>
         </div>
 
+        <div class="auth-popup show" id="auth-popup">
+            <form class="cart-box auth-box" id="auth-form">
+                <h2>Sign in or log in</h2>
+                <input name="username" type="text" placeholder="Username" minlength="3" required>
+                <input name="email" type="email" placeholder="Email" required>
+                <input name="password" type="password" placeholder="Password" minlength="8" required>
+                <div class="auth-actions">
+                    <button id="login-btn" type="button">Log in</button>
+                    <button id="signin-btn" type="button">Sign in</button>
+                </div>
+                <p id="auth-message"></p>
+            </form>
+        </div>
+
         <footer class="site-footer">
             <div class="footer-copy">
                 <p class="eyebrow">Physical Store</p>

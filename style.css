@@ -297,7 +297,8 @@ input {
     color: var(--paper);
 }
 
-.cart-popup {
+.cart-popup,
+.auth-popup {
     position: fixed;
     inset: 0;
     display: none;
@@ -308,7 +309,8 @@ input {
     z-index: 20;
 }
 
-.cart-popup.show {
+.cart-popup.show,
+.auth-popup.show {
     display: flex;
 }
 
@@ -337,7 +339,9 @@ input {
 }
 
 #checkout-btn,
-#order-btn {
+#order-btn,
+#login-btn,
+#signin-btn {
     width: 100%;
     padding: 0.9rem 1rem;
     border: 0;
@@ -362,6 +366,23 @@ input {
     padding: 0.9rem 1rem;
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
+}
+
+.auth-box input {
+    width: 100%;
+    margin-bottom: 0.8rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+}
+
+.auth-actions {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.admin-page {
+    padding: 4rem 0;
 }
 
 .site-footer {
