@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="page-shell">
@@ -45,8 +46,7 @@
                 <p class="eyebrow">Online Library</p>
                 <h1>Browse calm, beautifully presented book selections.</h1>
                 <p class="hero-copy">
-                    Search for a book to begin. The results area below is intentionally empty and ready
-                    for JavaScript to insert book cards from the Open Library API later.
+                    Search for a book to see live results from Open Library.
                 </p>
             </section>
 
@@ -58,20 +58,41 @@
 
                 <div class="books-grid" id="book-grid" aria-live="polite"></div>
             </section>
+
+            <section class="checkout-section" id="checkout" hidden>
+                <h2>Checkout</h2>
+                <input id="customer-name" type="text" placeholder="Your name">
+                <input id="customer-address" type="text" placeholder="Your address">
+                <button id="order-btn" type="button">Order</button>
+                <p id="order-message"></p>
+            </section>
         </main>
+
+        <div class="cart-popup" id="cart-popup">
+            <div class="cart-box">
+                <button class="close-cart" id="close-cart" type="button">x</button>
+                <h2>Your Cart</h2>
+                <div id="cart-items"></div>
+                <button id="checkout-btn" type="button">Go to checkout</button>
+            </div>
+        </div>
 
         <footer class="site-footer">
             <div class="footer-copy">
                 <p class="eyebrow">Physical Store</p>
                 <h2>Visit the reading room in person.</h2>
                 <p>
-                    The map block below is in place for your store location.
-                    Replace the placeholder iframe content with your real map embed when you have the address.
+                    Find us on Rruga e Kavajes, Tirana, Albania.
                 </p>
             </div>
 
             <div class="map-card">
-                <div class="store-map" id="store-map" aria-label="Store location map"></div>
+                <iframe
+                    class="store-map"
+                    id="store-map"
+                    title="Store location map"
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=19.795%2C41.316%2C19.822%2C41.331&layer=mapnik&marker=41.3235%2C19.8087">
+                </iframe>
             </div>
         </footer>
     </div>

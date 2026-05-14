@@ -297,6 +297,73 @@ input {
     color: var(--paper);
 }
 
+.cart-popup {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(31, 58, 46, 0.35);
+    z-index: 20;
+}
+
+.cart-popup.show {
+    display: flex;
+}
+
+.cart-box,
+.checkout-section {
+    width: min(100%, 28rem);
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper);
+    box-shadow: var(--shadow);
+}
+
+.cart-box h2,
+.checkout-section h2 {
+    margin-top: 0;
+}
+
+.close-cart {
+    float: right;
+    border: 0;
+    background: none;
+    color: var(--green);
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+#checkout-btn,
+#order-btn {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: var(--green);
+    color: var(--paper);
+    cursor: pointer;
+}
+
+#checkout-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.checkout-section {
+    margin: 0 auto 4rem;
+}
+
+.checkout-section input {
+    width: 100%;
+    margin-bottom: 0.8rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+}
+
 .site-footer {
     display: grid;
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
