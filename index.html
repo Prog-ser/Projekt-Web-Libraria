@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evergreen Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="site-header">
+            <div class="brand-group">
+                <a class="site-logo" href="#" aria-label="Evergreen Library home">
+                    <span class="logo-mark">EL</span>
+                    <span class="logo-text">
+                        <strong>Evergreen Library</strong>
+                        <small>Quiet shelves, thoughtful reads</small>
+                    </span>
+                </a>
+
+                <button class="cart-button" type="button" aria-label="Open cart">
+                    <span>Cart</span>
+                    <span class="cart-count">0</span>
+                </button>
+            </div>
+
+            <form class="search-form" role="search">
+                <label class="sr-only" for="search-books">Search books</label>
+                <input
+                    id="search-books"
+                    class="search-input"
+                    type="search"
+                    name="search"
+                    placeholder="Search by title, author, or subject"
+                    autocomplete="off"
+                >
+            </form>
+        </header>
+
+        <main>
+            <section class="hero">
+                <p class="eyebrow">Online Library</p>
+                <h1>Browse calm, beautifully presented book selections.</h1>
+                <p class="hero-copy">
+                    Search for a book to begin. The results area below is intentionally empty and ready
+                    for JavaScript to insert book cards from the Open Library API later.
+                </p>
+            </section>
+
+            <section class="catalog-section" aria-labelledby="catalog-heading">
+                <div class="section-heading">
+                    <h2 id="catalog-heading">Available Books</h2>
+                    <p>Results will appear here only after a search is made.</p>
+                </div>
+
+                <div class="books-grid" id="book-grid" aria-live="polite"></div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-copy">
+                <p class="eyebrow">Physical Store</p>
+                <h2>Visit the reading room in person.</h2>
+                <p>
+                    The map block below is in place for your store location.
+                    Replace the placeholder iframe content with your real map embed when you have the address.
+                </p>
+            </div>
+
+            <div class="map-card">
+                <div class="store-map" id="store-map" aria-label="Store location map"></div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
