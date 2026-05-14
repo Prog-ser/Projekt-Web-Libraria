@@ -1,7 +1,4 @@
 <?php
-$session_folder = __DIR__ . "/sessions";
-if (!is_dir($session_folder)) mkdir($session_folder);
-session_save_path($session_folder);
 session_start();
 
 $db = new mysqli("localhost", "root", "");
