@@ -145,6 +145,10 @@ input {
     font-size: 0.85rem;
 }
 
+.user-greeting {
+    font-weight: 700;
+}
+
 .search-form {
     flex: 0 1 28rem;
 }

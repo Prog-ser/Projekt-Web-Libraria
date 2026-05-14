@@ -1,4 +1,7 @@
 <?php
+$session_folder = __DIR__ . "/sessions";
+if (!is_dir($session_folder)) mkdir($session_folder);
+session_save_path($session_folder);
 session_start();
 
 $db = new mysqli("localhost", "root", "");
@@ -16,8 +19,10 @@ $db->query("CREATE TABLE IF NOT EXISTS orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     book_name TEXT,
     total_price DECIMAL(6,2),
-    user_name VARCHAR(80)
+    user_name VARCHAR(80),
+    destination VARCHAR(255)
 )");
+@$db->query("ALTER TABLE orders ADD destination VARCHAR(255)");
 
 if ($db->query("SELECT id FROM users WHERE email='levi@gmail.com'")->num_rows == 0) {
     $hash = password_hash("12345678", PASSWORD_DEFAULT);
@@ -40,7 +45,11 @@ function valid_user($username, $email, $password) {
 $action = $_POST["action"] ?? $_GET["action"] ?? "";
 
 if ($action == "check") {
-    answer(["logged" => isset($_SESSION["user_id"]), "admin" => $_SESSION["admin"] ?? false]);
+    answer([
+        "logged" => isset($_SESSION["user_id"]),
+        "admin" => $_SESSION["admin"] ?? false,
+        "username" => $_SESSION["username"] ?? ""
+    ]);
 }
 
 if ($action == "signup" || $action == "login") {
@@ -69,7 +78,7 @@ if ($action == "signup" || $action == "login") {
         $_SESSION["user_id"] = $db->insert_id;
         $_SESSION["username"] = $username;
         $_SESSION["admin"] = false;
-        answer(["ok" => true, "admin" => false, "message" => "Signed in."]);
+        answer(["ok" => true, "admin" => false, "username" => $username, "message" => "Signed in."]);
     }
 
     $stmt = $db->prepare("SELECT id, username, password FROM users WHERE username=? AND email=?");
@@ -84,7 +93,7 @@ if ($action == "signup" || $action == "login") {
     $_SESSION["user_id"] = $user["id"];
     $_SESSION["username"] = $user["username"];
     $_SESSION["admin"] = $user["username"] == "levi" && $email == "levi@gmail.com";
-    answer(["ok" => true, "admin" => $_SESSION["admin"], "message" => "Logged in."]);
+    answer(["ok" => true, "admin" => $_SESSION["admin"], "username" => $user["username"], "message" => "Logged in."]);
 }
 
 if ($action == "order") {
@@ -92,14 +101,15 @@ if ($action == "order") {
 
     $name = trim($_POST["name"] ?? "");
     $books = trim($_POST["books"] ?? "");
+    $destination = trim($_POST["destination"] ?? "");
     $total = (float)($_POST["total"] ?? 0);
 
-    if ($name == "" || $books == "" || $total <= 0) {
+    if ($name == "" || $books == "" || $destination == "" || $total <= 0) {
         answer(["ok" => false, "message" => "Order data is missing."]);
     }
 
-    $stmt = $db->prepare("INSERT INTO orders(book_name, total_price, user_name) VALUES(?,?,?)");
-    $stmt->bind_param("sds", $books, $total, $name);
+    $stmt = $db->prepare("INSERT INTO orders(book_name, total_price, user_name, destination) VALUES(?,?,?,?)");
+    $stmt->bind_param("sdss", $books, $total, $name, $destination);
     $stmt->execute();
     answer(["ok" => true, "message" => "Order saved."]);
 }
@@ -111,7 +121,7 @@ if ($action == "orders") {
     }
 
     $orders = [];
-    $result = $db->query("SELECT book_name, total_price, user_name FROM orders ORDER BY id DESC");
+    $result = $db->query("SELECT book_name, total_price, user_name, destination FROM orders ORDER BY id DESC");
 
     while ($row = $result->fetch_assoc()) {
         $orders[] = $row;

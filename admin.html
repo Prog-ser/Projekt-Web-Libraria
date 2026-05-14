@@ -41,6 +41,7 @@
                             <div class="book-content">
                                 <h3 class="book-title">${clean(order.book_name)}</h3>
                                 <p>Name: ${clean(order.user_name)}</p>
+                                <p>Destination: ${clean(order.destination || "")}</p>
                                 <p class="book-price">$${Number(order.total_price).toFixed(2)}</p>
                             </div>
                         </article>

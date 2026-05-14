@@ -16,6 +16,7 @@ const orderMessage = document.querySelector("#order-message");
 const authPopup = document.querySelector("#auth-popup");
 const authForm = document.querySelector("#auth-form");
 const authMessage = document.querySelector("#auth-message");
+const userGreeting = document.querySelector("#user-greeting");
 
 fetch("auth.php?action=check")
     .then(function (response) {
@@ -23,7 +24,10 @@ fetch("auth.php?action=check")
     })
     .then(function (data) {
         if (data.admin) location.href = "admin.html";
-        if (data.logged) authPopup.classList.remove("show");
+        if (data.logged) {
+            sayHi(data.username);
+            authPopup.classList.remove("show");
+        }
     });
 
 document.querySelector("#login-btn").addEventListener("click", function () {
@@ -115,6 +119,7 @@ orderButton.addEventListener("click", function () {
         return book.title;
     }).join(", "));
     formData.append("total", getTotal());
+    formData.append("destination", address);
 
     fetch("auth.php", { method: "POST", body: formData })
         .then(function (response) {
@@ -175,6 +180,13 @@ function sendAuth(action) {
             authMessage.textContent = data.message;
             if (!data.ok) return;
             if (data.admin) location.href = "admin.html";
-            else authPopup.classList.remove("show");
+            else {
+                sayHi(data.username);
+                authPopup.classList.remove("show");
+            }
         });
+}
+
+function sayHi(username) {
+    userGreeting.textContent = "Hi, " + username;
 }
